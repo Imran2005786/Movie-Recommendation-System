@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
+# Movie dataset
 movies = pd.DataFrame({
     "title": [
         "Avatar", "Titanic", "The Avengers", "Iron Man",
@@ -37,6 +38,7 @@ movies = pd.DataFrame({
     ]
 })
 
+# Machine Learning model
 vectorizer = CountVectorizer()
 genre_matrix = vectorizer.fit_transform(movies["genre"])
 similarity_matrix = cosine_similarity(genre_matrix)
@@ -62,8 +64,14 @@ def home():
                 movies["title"] == selected_movie
             ][0]
 
-            scores = list(enumerate(similarity_matrix[movie_index]))
-            scores.sort(key=lambda item: item[1], reverse=True)
+            scores = list(
+                enumerate(similarity_matrix[movie_index])
+            )
+
+            scores.sort(
+                key=lambda item: item[1],
+                reverse=True
+            )
 
             for index, score in scores:
                 if index != movie_index and score > 0:
