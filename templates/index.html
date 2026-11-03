@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        select, button {
+            width: 90%;
+            padding: 12px;
+            margin: 12px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        button {
+            background: #0284c7;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0369a1;
+        }
+
+        .movie {
+            background: #334155;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .movie h3 {
+            color: #38bdf8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🎬 Movie Recommendation System</h1>
+    <p>Discover movies similar to your favourites!</p>
+
+    <form method="POST">
+
+        <label>🎥 Choose a movie:</label>
+
+        <select name="movie">
+            {% for movie in movies %}
+                <option value="{{ movie }}"
+                {% if movie == selected_movie %}selected{% endif %}>
+                    {{ movie }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Number of recommendations:</label>
+
+        <select name="count">
+            {% for n in range(1, 6) %}
+                <option value="{{ n }}"
+                {% if n == number_of_movies %}selected{% endif %}>
+                    {{ n }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Recommend Movies 🍿</button>
+
+    </form>
+
+    {% if recommendations %}
+
+        <h2>🍿 Recommended Movies</h2>
+
+        {% for movie in recommendations %}
+
+            <div class="movie">
+                <h3>🎬 {{ movie.title }}</h3>
+                <p>Genre: {{ movie.genre }}</p>
+                <p>Rating: {{ movie.rating }}/10</p>
+                <p>Genre Similarity: {{ movie.similarity }}</p>
+            </div>
+
+        {% endfor %}
+
+    {% elif request.method == "POST" %}
+
+        <p>No similar movies found. Please choose another movie.</p>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
