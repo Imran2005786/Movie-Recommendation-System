@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, request
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
@@ -44,13 +45,16 @@ genre_matrix = vectorizer.fit_transform(movies["genre"])
 similarity_matrix = cosine_similarity(genre_matrix)
 
 
+# Home page
 @app.route("/", methods=["GET", "POST"])
 def home():
+
     recommendations = []
     selected_movie = movies["title"].iloc[0]
     number_of_movies = 5
 
     if request.method == "POST":
+
         selected_movie = request.form.get("movie", selected_movie)
 
         try:
@@ -60,6 +64,7 @@ def home():
             number_of_movies = 5
 
         if selected_movie in movies["title"].values:
+
             movie_index = movies.index[
                 movies["title"] == selected_movie
             ][0]
@@ -74,7 +79,9 @@ def home():
             )
 
             for index, score in scores:
+
                 if index != movie_index and score > 0:
+
                     recommendations.append({
                         "title": movies.iloc[index]["title"],
                         "genre": movies.iloc[index]["genre"],
@@ -93,5 +100,7 @@ def home():
     )
 
 
+# Run Flask application
 if __name__ == "__main__":
     app.run(debug=True)
+
