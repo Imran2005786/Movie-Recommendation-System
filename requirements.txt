@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Flask
 pandas
 scikit-learn
+=======
+pandas
+scikit-learn
+streamlit
+>>>>>>> f41434e49a0f1d7acd5d1313d7a66586da2d98f4
